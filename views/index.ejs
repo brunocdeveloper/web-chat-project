@@ -14,6 +14,13 @@
     <button type="button" id="sendButtonUserName" data-testid="nickname-button">Salvar nome</button>
     <input id="inputMessage" data-testid="message-box"/>
     <button type="submit" id="pingButton" data-testid="send-button">Enviar</button>
+    <div>
+      <% history.forEach((message) => { %>
+        <div data-testid="message">
+          <%= `${message.timestamp} - ${message.nickname}: ${message.message}` %>
+        </div>
+      <% }) %>
+    </div>
   </form>
   <ul id="messages"></ul>
   <script>
@@ -26,7 +33,7 @@
     const sendButtonUserName = document.querySelector('#sendButtonUserName');
 
     socket.on('greetings', (message) => {
-      createMessage(message);
+      // createMessage(message);
       userNames.innerText = socket.id.substr(0, 16);
     });
 
