@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <ul id="messages"></ul>
+  <form action="submit">
+    <input id="inputUser" />
+    <input id="inputMessage" />
+    <button type="submit" id="pingButton">Enviar</button>
+  </form>
+  <script>
+    const socket = io();
+    const sendButton = document.querySelector('#pingButton');
+    const inputUser = document.querySelector('#inputUser');
+    const inputMessage = document.querySelector('#inputMessage');
+    const formMessages = document.querySelector('form');
+
+    socket.on('greetings', (message) => createMessage(message));
+
+    formMessages.addEventListener('submit', (e) => {
+      e.preventDefault();
+      socket.emit('message', { chatMessage: inputMessage.value, nickname: socket.id });
+      inputMessage.value = '';
+      console.log(socket.id);
+      return false;
+    });
+
+    const createMessage = (message) => {
+      const ul = document.querySelector('#messages');
+      const li = document.createElement('li');
+      li.innerText = message;
+      ul.appendChild(li);
+    };
+
+    socket.on('message', (message) => createMessage(message));
+    socket.on('newConnection', (message) => createMessage(message));
+  </script>
+</body>
+</html>
