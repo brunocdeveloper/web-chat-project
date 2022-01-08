@@ -8,26 +8,43 @@
   <title>Document</title>
 </head>
 <body>
-  <ul id="messages"></ul>
   <form action="submit">
-    <input id="inputUser" />
-    <input id="inputMessage" />
-    <button type="submit" id="pingButton">Enviar</button>
+    <div id="userNames" data-testid="online-user"></div>
+    <input id="inputUser" data-testid="nickname-box"/>
+    <button type="button" id="sendButtonUserName" data-testid="nickname-button">Salvar nome</button>
+    <input id="inputMessage" data-testid="message-box"/>
+    <button type="submit" id="pingButton" data-testid="send-button">Enviar</button>
   </form>
+  <ul id="messages"></ul>
   <script>
     const socket = io();
     const sendButton = document.querySelector('#pingButton');
     const inputUser = document.querySelector('#inputUser');
     const inputMessage = document.querySelector('#inputMessage');
     const formMessages = document.querySelector('form');
+    const userNames = document.querySelector('#userNames');
+    const sendButtonUserName = document.querySelector('#sendButtonUserName');
 
-    socket.on('greetings', (message) => createMessage(message));
+    socket.on('greetings', (message) => {
+      createMessage(message);
+      userNames.innerText = socket.id.substr(0, 16);
+    });
+
+    sendButtonUserName.addEventListener('click', (e) => {
+      if(!inputUser.value) return;
+      userNames.innerText = inputUser.value;
+      sessionStorage.setItem('firstName', inputUser.value);
+    });
 
     formMessages.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('message', { chatMessage: inputMessage.value, nickname: socket.id });
-      inputMessage.value = '';
-      console.log(socket.id);
+      const sessionName = sessionStorage.getItem('firstName');
+
+      socket.emit('message', { 
+        chatMessage: inputMessage.value,
+        nickname: sessionName ? sessionName : socket.id.substr(0, 16)
+      });
+
       return false;
     });
 
@@ -35,6 +52,7 @@
       const ul = document.querySelector('#messages');
       const li = document.createElement('li');
       li.innerText = message;
+      li.setAttribute('data-testid', 'message');
       ul.appendChild(li);
     };
 

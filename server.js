@@ -30,7 +30,6 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newConnection', 'Alguém acabou de se conectar');
 
   socket.on('message', ({ chatMessage, nickname }) => {
-    console.log(`${socket.id} emitiu um ping!`);
     io.emit('message', `${currentDate} ${nickname}: ${chatMessage}`);
   });
 });
