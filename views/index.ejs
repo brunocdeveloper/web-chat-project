@@ -9,7 +9,9 @@
 </head>
 <body>
   <form action="submit">
-    <div id="userNames" data-testid="online-user"></div>
+    <p id="userNames" data-testid="online-user"></p>
+    <div id="divUserNames">
+    </div>
     <input id="inputUser" data-testid="nickname-box"/>
     <button type="button" id="sendButtonUserName" data-testid="nickname-button">Salvar nome</button>
     <input id="inputMessage" data-testid="message-box"/>
@@ -31,27 +33,45 @@
     const formMessages = document.querySelector('form');
     const userNames = document.querySelector('#userNames');
     const sendButtonUserName = document.querySelector('#sendButtonUserName');
+    const divUserNames = document.querySelector('#divUserNames');
+    const arrayUserNames = [];
 
-    socket.on('greetings', (message) => {
-      // createMessage(message);
-      userNames.innerText = socket.id.substr(0, 16);
-    });
+    const createNewUser = (nickname) => {
+      const user = Object.values(nickname);
+      divUserNames.innerText = '';
+      user.forEach((name) => {
+        if(name !== userNames.innerText) {
+          const span = document.createElement('p');
+          span.setAttribute('data-testid', 'online-user');
+          span.innerText = name;
+          divUserNames.appendChild(span);
+        };
+      });
+    };
 
     sendButtonUserName.addEventListener('click', (e) => {
       if(!inputUser.value) return;
       userNames.innerText = inputUser.value;
+      const sessionName = localStorage.getItem('firstName');
       sessionStorage.setItem('firstName', inputUser.value);
+      sessionStorage.setItem('users', JSON.stringify({
+        name: inputUser.value,
+        id: socket.id.substr(0, 16),
+      }));
+      socket.emit('attNickName', inputUser.value);
     });
 
     formMessages.addEventListener('submit', (e) => {
       e.preventDefault();
       const sessionName = sessionStorage.getItem('firstName');
-
       socket.emit('message', { 
         chatMessage: inputMessage.value,
         nickname: sessionName ? sessionName : socket.id.substr(0, 16)
       });
-
+      
+      socket.emit('onlineUser', {
+        nickname: sessionName ? sessionName : socket.id.substr(0, 16)
+      })
       return false;
     });
 
@@ -62,9 +82,27 @@
       li.setAttribute('data-testid', 'message');
       ul.appendChild(li);
     };
+    
+    const attNickName = () => {
+      const newName = inputUser.value;
+      userNames.innerText = newName;
+    }
 
     socket.on('message', (message) => createMessage(message));
-    socket.on('newConnection', (message) => createMessage(message));
+
+    socket.on('newConnection', (message) => {
+      createMessage(message);
+    });
+
+    socket.on('firstNameUser', (user) => {
+      const nickname = user;
+      userNames.innerText = nickname;
+    });
+
+    socket.on('onlineUser', (nickname) => {
+      createNewUser(nickname);
+    });
+
   </script>
 </body>
 </html>
