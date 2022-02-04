@@ -5,26 +5,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/socket.io/socket.io.js"></script>
-  <title>Document</title>
+  <link href="public/assets/stylesheet.css" rel="stylesheet" type="text/css" />
+  <title>Web chat</title>
 </head>
 <body>
-  <form action="submit">
-    <p id="userNames" data-testid="online-user"></p>
-    <div id="divUserNames">
-    </div>
-    <input id="inputUser" data-testid="nickname-box"/>
-    <button type="button" id="sendButtonUserName" data-testid="nickname-button">Salvar nome</button>
-    <input id="inputMessage" data-testid="message-box"/>
-    <button type="submit" id="pingButton" data-testid="send-button">Enviar</button>
-    <div>
-      <% history.forEach((message) => { %>
-        <div data-testid="message">
-          <%= `${message.timestamp} - ${message.nickname}: ${message.message}` %>
-        </div>
-      <% }) %>
-    </div>
-  </form>
-  <ul id="messages"></ul>
+  <div class="CenterContainer">
+    <form action="submit">
+      <p id="userNames" data-testid="online-user" class="online-user"></p>
+      <div id="divUserNames">
+      </div>
+      <input id="inputUser" data-testid="nickname-box"/>
+      <button type="button" id="sendButtonUserName" data-testid="nickname-button">Salvar nome</button>
+      <input id="inputMessage" data-testid="message-box"/>
+      <button type="submit" id="pingButton" data-testid="send-button">Enviar</button>
+      <div>
+        <% history.forEach((message) => { %>
+          <div data-testid="message">
+            <%= `${message.timestamp} - ${message.nickname}: ${message.message}` %>
+          </div>
+        <% }) %>
+      </div>
+    </form>
+    <ul id="messages"></ul>
+  </div>
   <script>
     const socket = io();
     const sendButton = document.querySelector('#pingButton');
@@ -49,8 +52,6 @@
       });
     };
 
-    console.log('Teste do git remote')
-    
     sendButtonUserName.addEventListener('click', (e) => {
       if(!inputUser.value) return;
       userNames.innerText = inputUser.value;

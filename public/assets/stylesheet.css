@@ -1,0 +1,9 @@
+.CenterContainer {
+  background-color: black;
+  display: flex;
+  width: 50%;
+}
+
+.online-user {
+  backdrop-filter: green;
+}

@@ -22,6 +22,7 @@ const { createHistory } = require('./models/history');
 app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', './views');
+app.use('/public', express.static('public'));
 
 const users = {};
 
