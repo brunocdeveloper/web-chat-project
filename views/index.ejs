@@ -10,38 +10,45 @@
 </head>
 <body>
   <div class="CenterContainer">
-    <form action="submit">
-        <div class="containerUsersInfo">
-          <div class="containerInputAndBtnSave">
-            <input id="inputUser" data-testid="nickname-box" class="inputNameUser"/>
-            <button
-              type="button"
-              id="sendButtonUserName"
-              data-testid="nickname-button"
-              class="btnSaveName"
-            >
-              Salvar
-            </button>
-          </div>
-          <div class="containerUsersOnline">
-            <h3 class="titleUsersOnline">Usuários Online</h3>
-            <div class="listUsersOnline">
-              <p id="userNames" data-testid="online-user" class="online-user styleUsersOnline"></p>
-              <div id="divUserNames" class="styleUsersOnline"></div>
-            </div>
+    <h1 class="titleWebChat">Bem vindo ao web chat!</h1>
+    <form action="submit" class="formContainer">
+      <div class="containerUsersInfo">
+        <div class="containerInputAndBtnSave">
+          <input id="inputUser" data-testid="nickname-box" class="inputNameUser"/>
+          <button
+            type="button"
+            id="sendButtonUserName"
+            data-testid="nickname-button"
+            class="btnSaveName"
+          >
+            Salvar
+          </button>
+        </div>
+        <div class="containerUsersOnline">
+          <h3 class="titleUsersOnline">Usuários Online</h3>
+          <div class=" ">
+            <p id="userNames" data-testid="online-user" class="online-user styleUsersOnline"></p>
+            <div id="divUserNames" class="styleUsersOnline"></div>
           </div>
         </div>
-      <input id="inputMessage" data-testid="message-box"/>
-      <button type="submit" id="pingButton" data-testid="send-button">Enviar</button>
-      <div>
-        <% history.forEach((message) => { %>
-          <div data-testid="message">
-            <%= `${message.timestamp} - ${message.nickname}: ${message.message}` %>
+      </div>
+      <div class="containerMessages">
+        <div class="historyMessages">
+          <div>
+            <% history.forEach((message) => { %>
+              <div data-testid="message">
+                <%= `${message.timestamp} - ${message.nickname}: ${message.message}` %>
+              </div>
+              <% }) %>
+            <div id="messages" class="actualMessages"></div>
           </div>
-        <% }) %>
+        </div>
+        <div>
+          <input id="inputMessage" data-testid="message-box" class="inputMessages"/>
+          <button class="btnSendMessage" type="submit" id="pingButton" data-testid="send-button">Enviar</button>
+        </div>
       </div>
     </form>
-    <ul id="messages"></ul>
   </div>
   <script>
     const socket = io();
@@ -52,7 +59,11 @@
     const userNames = document.querySelector('#userNames');
     const sendButtonUserName = document.querySelector('#sendButtonUserName');
     const divUserNames = document.querySelector('#divUserNames');
+    const containerMesages = document.querySelector('.historyMessages')
+    const actualMessages = document.querySelector('.actualMessages')
     const arrayUserNames = [];
+    containerMesages.scrollTop = containerMesages.scrollHeight;
+
 
     const createNewUser = (nickname) => {
       const user = Object.values(nickname);
@@ -77,6 +88,7 @@
         id: socket.id.substr(0, 16),
       }));
       socket.emit('attNickName', inputUser.value);
+      inputUser.value = ''
     });
 
     formMessages.addEventListener('submit', (e) => {
@@ -90,6 +102,10 @@
       socket.emit('onlineUser', {
         nickname: sessionName ? sessionName : socket.id.substr(0, 16)
       })
+
+      inputMessage.value = '';
+      containerMesages.scrollTop = containerMesages.scrollHeight;
+
       return false;
     });
 
