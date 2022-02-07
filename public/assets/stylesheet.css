@@ -31,26 +31,25 @@
 }
 
 .inputNameUser {
-  background: #FFFFFF;
-  border: 1.52746px solid #B1CEB0;
-  box-shadow: 0px 3.05491px 3.05491px rgba(0, 0, 0, 0.25);
-  color: #72A758;
-  font-size: 27.4942px;
+  background: white;
+  border: 1.527px solid #b1ceb0;
+  box-shadow: 0 3.05px 3.05px rgba(0, 0, 0, 0.25);
+  color: #72a758;
+  font-size: 27.49px;
   font-style: normal;
-  font-weight: normal;
   height: 47px;
   line-height: 32px;
   width: 230px;
 }
 
 .btnSaveName {
-  background: #B1CEB0;
+  background: #b1ceb0;
   border-radius: 3px;
   border-style: none;
-  color: #FFFFFF;
-  font-size: 27.4942px;
+  color: white;
+  font-size: 27.49px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 700;
   height: 49px;
   line-height: 32px;
   padding-bottom: 8px;
@@ -60,17 +59,17 @@
 }
 
 .containerUsersOnline {
-  background-color: #F9FCEB;
+  background-color: #f9fceb;
   height: 500px;
   margin: 0 auto;
   width: 400px;
 }
 
 .titleUsersOnline {
-  color: #377A35;
-  font-size: 29.4942px;
+  color: #377a35;
+  font-size: 29.49px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 32px;
 }
 
@@ -80,10 +79,9 @@
 }
 
 .styleUsersOnline {
-  color: #377A35;
+  color: #377a35;
   font-size: 24px;
   font-style: normal;
-  font-weight: normal;
   line-height: 32px;
 }
 
@@ -97,29 +95,27 @@
 }
 
 .historyMessages {
-  background: #FFFCFC;
-  border: 1.52746px solid #B1CEB0;
+  background: #fffcfc;
+  border: 1.52px solid #b1ceb0;
   box-sizing: border-box;
   font-size: 24px;
   font-style: normal;
-  font-weight: normal;
   height: 550px;
   line-height: 38px;
   list-style-type: none;
-  padding: 25px 25px 50px 25px;
   overflow-y: scroll;
+  padding: 50px 25px;
 }
 
 .inputMessages {
-  background-color: #FFFFFF;
-  border: 1.52746px solid #B1CEB0;
+  background-color: white;
+  border: 1.52px solid #b1ceb0;
   box-sizing: border-box;
-  height: 95.47px;
-  width: 624.29px;
   font-size: 24px;
   font-style: normal;
-  font-weight: normal;
+  height: 95.47px;
   padding: 0 0 0 10px;
+  width: 624.29px;
 }
 
 .btnSendMessage {
@@ -128,21 +124,21 @@
   color: white;
   font-size: 27.49px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 700;
   height: 97.7px;
   line-height: 32px;
-  width: 151.22px;
   padding-bottom: 5px;
+  width: 151.22px;
 }
 
 .titleWebChat {
-  margin-top: 50px;
-  color: #5E955C;
-  text-align: center;
+  color: #5e955c;
   font-size: 36px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 42px;
+  margin-top: 50px;
+  text-align: center;
 }
 
 .btnSendMessage:hover , .btnSaveName:hover {
